@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "JYRouter.h"
+#import "JYNavigationController.h"
+#import "JYViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +19,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    // 设置主窗口,并设置跟控制器
+    self.window = [[UIWindow alloc] init];
+    self.window.frame = [UIScreen mainScreen].bounds;
+    JYViewController *root = [[JYViewController alloc] init];
+    JYNavigationController *nav = [[JYNavigationController alloc] initWithRootViewController:root];
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
+
+    //设置Router跳转时所显示的NavigationController
+    [[JYRouter router] setCustomNavigationClass:[JYNavigationController class]];
+    
     return YES;
 }
 

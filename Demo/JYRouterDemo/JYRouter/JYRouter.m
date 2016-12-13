@@ -75,6 +75,10 @@
     return _sharedRouter;
 }
 
++ (instancetype)newRouter {
+    return [[self alloc] init];
+}
+
 - (void)setCustomNavigationClass:(Class)navClass {
     if (![navClass isSubclassOfClass:[UINavigationController class]]) {
         @throw [NSException exceptionWithName:@"NavClassTypeError"
@@ -135,8 +139,8 @@
     // 这里会按照params字典映射的方式给controller对应的属性赋值
     // 所以此处我使用了YYModel的yy_modelSetWithDictionary进行属性赋值
     // 如果你的项目中直接导入了YYModel，则可以删除YYmodel文件夹依赖
-    // 如果你的项目中单独导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
-    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，切使用  [controller mj_setKeyValues:params];
+    // 如果你的项目中导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
+    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，且使用 [controller mj_setKeyValues:params];
     [controller yy_modelSetWithDictionary:params];
     
     return controller;
@@ -187,14 +191,14 @@
 }
 
 - (void)popToRoot {
-    [self popToRootAnimated:YES];
+    [self popToRoot:YES];
 }
 
-- (void)popToRootAnimated:(BOOL)animated {
-    [self popToRootAnimated:animated completion:nil];
+- (void)popToRoot:(BOOL)animated {
+    [self popToRoot:animated completion:nil];
 }
 
-- (void)popToRootAnimated:(BOOL)animated completion:(void(^)())completion {
+- (void)popToRoot:(BOOL)animated completion:(void(^)())completion {
     [self.navigationController popToRootViewController:animated completion:completion];
 }
 
@@ -253,8 +257,8 @@
     // 这里会按照params字典映射的方式给controller对应的属性赋值
     // 所以此处我使用了YYModel的yy_modelSetWithDictionary进行属性赋值
     // 如果你的项目中直接导入了YYModel，则可以删除YYmodel文件夹依赖
-    // 如果你的项目中单独导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
-    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，切使用  [controller mj_setKeyValues:params];
+    // 如果你的项目中导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
+    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，且使用 [controller mj_setKeyValues:params];
     [controller yy_modelSetWithDictionary:params];
     
     

@@ -9,14 +9,15 @@
 /* Begin PBXBuildFile section */
 		B17560AD1DFEA5BA0007E573 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560AC1DFEA5BA0007E573 /* main.m */; };
 		B17560B01DFEA5BA0007E573 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560AF1DFEA5BA0007E573 /* AppDelegate.m */; };
-		B17560B31DFEA5BA0007E573 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560B21DFEA5BA0007E573 /* ViewController.m */; };
-		B17560B61DFEA5BA0007E573 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B17560B41DFEA5BA0007E573 /* Main.storyboard */; };
 		B17560B81DFEA5BA0007E573 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B17560B71DFEA5BA0007E573 /* Assets.xcassets */; };
 		B17560BB1DFEA5BA0007E573 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B17560B91DFEA5BA0007E573 /* LaunchScreen.storyboard */; };
 		B17560CC1DFEA5EC0007E573 /* JYRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560C41DFEA5EC0007E573 /* JYRouter.m */; };
 		B17560CD1DFEA5EC0007E573 /* Routable.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560C61DFEA5EC0007E573 /* Routable.m */; };
 		B17560CE1DFEA5EC0007E573 /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560C91DFEA5EC0007E573 /* NSObject+YYModel.m */; };
 		B17560CF1DFEA5EC0007E573 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560CB1DFEA5EC0007E573 /* YYClassInfo.m */; };
+		B1DD3AA41DFFBC8900BCF83A /* JYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DD3AA31DFFBC8900BCF83A /* JYNavigationController.m */; };
+		B1DD3AA61DFFC94100BCF83A /* dataList.json in Resources */ = {isa = PBXBuildFile; fileRef = B1DD3AA51DFFC94100BCF83A /* dataList.json */; };
+		B1DD3AA91DFFD85600BCF83A /* JYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DD3AA81DFFD85600BCF83A /* JYViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,9 +25,6 @@
 		B17560AC1DFEA5BA0007E573 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B17560AE1DFEA5BA0007E573 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B17560AF1DFEA5BA0007E573 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B17560B11DFEA5BA0007E573 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B17560B21DFEA5BA0007E573 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		B17560B51DFEA5BA0007E573 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B17560B71DFEA5BA0007E573 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B17560BA1DFEA5BA0007E573 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B17560BC1DFEA5BA0007E573 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,6 +37,11 @@
 		B17560CA1DFEA5EC0007E573 /* YYClassInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYClassInfo.h; sourceTree = "<group>"; };
 		B17560CB1DFEA5EC0007E573 /* YYClassInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYClassInfo.m; sourceTree = "<group>"; };
 		B17560D01DFEA6540007E573 /* YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYModel.h; sourceTree = "<group>"; };
+		B1DD3AA21DFFBC8900BCF83A /* JYNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYNavigationController.h; sourceTree = "<group>"; };
+		B1DD3AA31DFFBC8900BCF83A /* JYNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYNavigationController.m; sourceTree = "<group>"; };
+		B1DD3AA51DFFC94100BCF83A /* dataList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dataList.json; sourceTree = "<group>"; };
+		B1DD3AA71DFFD85600BCF83A /* JYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYViewController.h; sourceTree = "<group>"; };
+		B1DD3AA81DFFD85600BCF83A /* JYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +77,11 @@
 				B17560C21DFEA5EC0007E573 /* JYRouter */,
 				B17560AE1DFEA5BA0007E573 /* AppDelegate.h */,
 				B17560AF1DFEA5BA0007E573 /* AppDelegate.m */,
-				B17560B11DFEA5BA0007E573 /* ViewController.h */,
-				B17560B21DFEA5BA0007E573 /* ViewController.m */,
-				B17560B41DFEA5BA0007E573 /* Main.storyboard */,
+				B1DD3AA21DFFBC8900BCF83A /* JYNavigationController.h */,
+				B1DD3AA31DFFBC8900BCF83A /* JYNavigationController.m */,
+				B1DD3AA71DFFD85600BCF83A /* JYViewController.h */,
+				B1DD3AA81DFFD85600BCF83A /* JYViewController.m */,
+				B1DD3AA51DFFC94100BCF83A /* dataList.json */,
 				B17560B71DFEA5BA0007E573 /* Assets.xcassets */,
 				B17560B91DFEA5BA0007E573 /* LaunchScreen.storyboard */,
 				B17560BC1DFEA5BA0007E573 /* Info.plist */,
@@ -148,7 +153,7 @@
 				TargetAttributes = {
 					B17560A71DFEA5BA0007E573 = {
 						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -177,7 +182,7 @@
 			files = (
 				B17560BB1DFEA5BA0007E573 /* LaunchScreen.storyboard in Resources */,
 				B17560B81DFEA5BA0007E573 /* Assets.xcassets in Resources */,
-				B17560B61DFEA5BA0007E573 /* Main.storyboard in Resources */,
+				B1DD3AA61DFFC94100BCF83A /* dataList.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,8 +193,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B17560B31DFEA5BA0007E573 /* ViewController.m in Sources */,
+				B1DD3AA91DFFD85600BCF83A /* JYViewController.m in Sources */,
 				B17560CC1DFEA5EC0007E573 /* JYRouter.m in Sources */,
+				B1DD3AA41DFFBC8900BCF83A /* JYNavigationController.m in Sources */,
 				B17560B01DFEA5BA0007E573 /* AppDelegate.m in Sources */,
 				B17560CE1DFEA5EC0007E573 /* NSObject+YYModel.m in Sources */,
 				B17560CD1DFEA5EC0007E573 /* Routable.m in Sources */,
@@ -201,14 +207,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B17560B41DFEA5BA0007E573 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B17560B51DFEA5BA0007E573 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B17560B91DFEA5BA0007E573 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -312,7 +310,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = JYRouterDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Job-Yang.JYRouterDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -323,7 +323,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = JYRouterDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Job-Yang.JYRouterDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
