@@ -1,0 +1,35 @@
+[
+  {
+  "group": "Push",
+  "list": [
+           "push跳转",
+           "push跳转,附带参数",
+           "push跳转,附带参数,完成回调"
+           ]
+  },
+  {
+  "group": "Pop",
+  "list": [
+           "Pop到上级",
+           "Pop到根控制器",
+           "Pop到根控制器,完成回调",
+           "Pop到指定控制器",
+           "Pop到指定控制器,完成回调"
+           ]
+  },
+  {
+  "group": "Present",
+  "list": [
+           "Present跳转",
+           "Present跳转,附带参数",
+           "Present跳转,附带参数,完成回调"
+           ]
+  },
+  {
+  "group": "Dismiss",
+  "list": [
+           "Dismiss", 
+           "Dismiss,完成回调"
+           ]
+  }
+]

@@ -1,0 +1,74 @@
+[
+    {
+        "group": "Push",
+        "list": [
+            {
+                "title": "push跳转",
+                "action": "push1"
+            },
+            {
+                "title": "push跳转,附带参数",
+                "action": "push2"
+            },
+            {
+                "title": "push跳转,附带参数,完成回调",
+                "action": "push3"
+            }
+        ]
+    },
+    {
+        "group": "Pop",
+        "list": [
+            {
+                "title": "Pop到上级",
+                "action": "pop1"
+            },
+            {
+                "title": "Pop到根控制器",
+                "action": "pop2"
+            },
+            {
+                "title": "Pop到根控制器,完成回调",
+                "action": "pop3"
+            },
+            {
+                "title": "Pop到指定控制器",
+                "action": "pop4"
+            },
+            {
+                "title": "Pop到指定控制器,完成回调",
+                "action": "pop5"
+            }
+        ]
+    },
+    {
+        "group": "Present",
+        "list": [
+            {
+                "title": "Present跳转",
+                "action": "present1"
+            },
+            {
+                "title": "Present跳转,附带参数",
+                "action": "present2"
+            },
+            {
+                "title": "Present跳转,附带参数,完成回调",
+                "action": "present3"
+            }
+        ]
+    },
+    {
+        "group": "Dismiss",
+        "list": [
+            {
+                "title": "Dismiss",
+                "action": "dismiss1"
+            },
+            {
+                "title": "Dismiss,完成回调",
+                "action": "dismiss2"
+            }
+        ]
+    }
+]
