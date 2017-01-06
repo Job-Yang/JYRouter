@@ -10,7 +10,6 @@
 JYRouter是一个基于[Routable](https://github.com/clayallsopp/routable-ios)封装的路由跳转库，封装了常见的**Push**, **Pop**, **Present**, **Dismiss**等跳转方法。
 
 
-
 ## 特性
 - **兼容性:**支持Objective-C和Swift
 
@@ -18,7 +17,6 @@ JYRouter是一个基于[Routable](https://github.com/clayallsopp/routable-ios)�
 
 - **无侵入性:**无需继承自其他基类
 
-  ​
 
 ## 使用方法
 
@@ -37,7 +35,7 @@ JYRouter是一个基于[Routable](https://github.com/clayallsopp/routable-ios)�
 	NSDictionary *params2 = @{
 	  						@"type" : @(0)
 							};
-	[[JYRouter router] push:@"JYViewController" animated:YES params:params completion:^{
+	[[JYRouter router] push:@"JYViewController" animated:YES params:params2 completion:^{
 		NSLog(@"🔥🔥🔥Push完成回调🔥🔥🔥");
 	}];
 
@@ -62,10 +60,13 @@ JYRouter是一个基于[Routable](https://github.com/clayallsopp/routable-ios)�
 
 ### 自定义NavigationController
 	在AppDelegate设置
+
 **Objective-C**
 	[[JYRouter router] setCustomNavigationClass:[JYNavigationController class]];
+	
 **Swift**
 	JYRouter().setCustomNavigationClass(JYNavigationController.self)
+
 ## 安装
 
 ### 手动安装
