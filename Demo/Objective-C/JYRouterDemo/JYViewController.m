@@ -146,7 +146,7 @@
                  Pop到根控制器,完成回调
                  */
                 case 2: {
-                    [[JYRouter router] popToRootAnimated:YES completion:^{
+                    [[JYRouter router] popToRoot:YES completion:^{
                         NSLog(@"💧💧💧Pop完成回调💧💧💧");
                     }];
                     break;
