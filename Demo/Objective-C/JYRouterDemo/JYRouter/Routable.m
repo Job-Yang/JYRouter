@@ -397,7 +397,8 @@
     }
     else if ([params.routerOptions.openClass instancesRespondToSelector:CONTROLLER_SELECTOR]) {
         controller = [[params.routerOptions.openClass alloc] performSelector:CONTROLLER_SELECTOR withObject:[params controllerParams]];
-    } else {
+    }
+    else {
         controller = [[params.routerOptions.openClass alloc] performSelector:CONTROLLER_INIT];
     }
 #pragma clang diagnostic pop

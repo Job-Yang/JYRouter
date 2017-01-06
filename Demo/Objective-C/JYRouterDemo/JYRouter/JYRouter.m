@@ -75,6 +75,10 @@
     return _sharedRouter;
 }
 
++ (instancetype)newRouter {
+    return [[self alloc] init];
+}
+
 - (void)setCustomNavigationClass:(Class)navClass {
     if (![navClass isSubclassOfClass:[UINavigationController class]]) {
         @throw [NSException exceptionWithName:@"NavClassTypeError"
@@ -124,19 +128,19 @@
     UPRouterOptions *options = [UPRouterOptions routerOptions];
     
     if (![self hasRouter:viewController]) {
-        [self map:viewController toController:NSClassFromString(viewController) withOptions:options];
+        [self map:viewController toController:[self JYClassFromString:viewController] withOptions:options];
     }
     RouterParams *extraParams = [self routerParamsForUrl:viewController extraParams:params];
     
-    options.openClass = NSClassFromString(viewController);
+    options.openClass = [self JYClassFromString:viewController];
     extraParams.routerOptions = options;
     
     UIViewController *controller = [self controllerForRouterParams:extraParams];
     // 这里会按照params字典映射的方式给controller对应的属性赋值
     // 所以此处我使用了YYModel的yy_modelSetWithDictionary进行属性赋值
     // 如果你的项目中直接导入了YYModel，则可以删除YYmodel文件夹依赖
-    // 如果你的项目中单独导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
-    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，切使用  [controller mj_setKeyValues:params];
+    // 如果你的项目中导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
+    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，且使用 [controller mj_setKeyValues:params];
     [controller yy_modelSetWithDictionary:params];
     
     return controller;
@@ -187,14 +191,14 @@
 }
 
 - (void)popToRoot {
-    [self popToRootAnimated:YES];
+    [self popToRoot:YES];
 }
 
-- (void)popToRootAnimated:(BOOL)animated {
-    [self popToRootAnimated:animated completion:nil];
+- (void)popToRoot:(BOOL)animated {
+    [self popToRoot:animated completion:nil];
 }
 
-- (void)popToRootAnimated:(BOOL)animated completion:(void(^)())completion {
+- (void)popToRoot:(BOOL)animated completion:(void(^)())completion {
     [self.navigationController popToRootViewController:animated completion:completion];
 }
 
@@ -228,13 +232,13 @@
 
 - (void)open:(NSString *)url withOptions:(UPRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
     if (![self hasRouter:url]) {
-        [self map:url toController:NSClassFromString(url) withOptions:options];
+        [self map:url toController:[self JYClassFromString:url] withOptions:options];
     }
     RouterParams *extraParams = [self routerParamsForUrl:url extraParams:params];
     if (!options) {
         options = [UPRouterOptions routerOptions];
     }
-    options.openClass = NSClassFromString(url);
+    options.openClass = [self JYClassFromString:url];
     extraParams.routerOptions = options;
     
     if (options.callback) {
@@ -253,8 +257,8 @@
     // 这里会按照params字典映射的方式给controller对应的属性赋值
     // 所以此处我使用了YYModel的yy_modelSetWithDictionary进行属性赋值
     // 如果你的项目中直接导入了YYModel，则可以删除YYmodel文件夹依赖
-    // 如果你的项目中单独导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
-    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，切使用  [controller mj_setKeyValues:params];
+    // 如果你的项目中导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
+    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，且使用 [controller mj_setKeyValues:params];
     [controller yy_modelSetWithDictionary:params];
     
     
@@ -288,6 +292,23 @@
             [self.navigationController pushViewController:controller animated:animated];
         }
     }
+}
+
+- (Class)JYClassFromString:(NSString *)className {
+    Class class = NSClassFromString(className);
+    if (!class) {
+        class = [self swiftClassFromString:className];
+    }
+    NSLog(@"class = %@",class);
+    return class;
+}
+
+- (Class)swiftClassFromString:(NSString *)className {
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"];
+    //http://www.skyfox.org/swift-nsclassfromstring-crash.html
+    appName = [appName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+    NSString *classStringName = [NSString stringWithFormat:@"%@.%@", appName, className];
+    return NSClassFromString(classStringName);
 }
 
 - (UINavigationController *)navigationController {

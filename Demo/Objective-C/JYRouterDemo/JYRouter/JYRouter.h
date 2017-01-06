@@ -21,6 +21,13 @@
 + (instancetype)router;
 
 /**
+ 获取一个新的Router对象
+
+ @return JYRouter对象
+ */
++ (instancetype)newRouter;
+
+/**
  设置自定义的Navigation,用于present时显示
  如果您想全局设置，请在AppDelegate 的didFinishLaunchingWithOptions方法中设置
  [[JYRouter router] setCustomNavigationClass:[YourCustomNavigation class]];
@@ -173,7 +180,7 @@
 
  @param animated 是否显示Pop动画
  */
-- (void)popToRootAnimated:(BOOL)animated;
+- (void)popToRoot:(BOOL)animated;
 
 /**
  Pop到根控制器（是否显示Pop动画）
@@ -181,7 +188,7 @@
  @param animated 是否显示Pop动画
  @param completion 完成回调
  */
-- (void)popToRootAnimated:(BOOL)animated
+- (void)popToRoot:(BOOL)animated
                completion:(void(^)())completion;
 
 /**

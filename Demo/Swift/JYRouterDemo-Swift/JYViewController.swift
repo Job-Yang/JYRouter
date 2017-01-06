@@ -31,17 +31,17 @@ class JYViewController: UIViewController {
     // MARK: - setup methods
     func setNavigation() {
         navigationItem.title = "JYRouter"
-        let red = arc4random() % 255
-        let green = arc4random() % 255
-        let bule = arc4random() % 255
-        navigationController?.navigationBar.barTintColor = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(bule/255), alpha: 1)
+        let red   = CGFloat(arc4random() % 255)
+        let green = CGFloat(arc4random() % 255)
+        let bule  = CGFloat(arc4random() % 255)
+        navigationController?.navigationBar.barTintColor = UIColor(red: red/255.0, green: green/255.0, blue: bule/255.0, alpha: 1)
     }
     
     func showParameter() {
         print("-----------------------------------------------")
-        print("⭕️parameterString \(parameterString)")
-        print("⭕️parameterString \(parameterNumber)")
-        print("⭕️parameterString \(parameterDictionary)")
+        print("⭕️parameterString     = \(parameterString)")
+        print("⭕️parameterNumber     = \(parameterNumber)")
+        print("⭕️parameterDictionary = \(parameterDictionary)")
         print("-----------------------------------------------\n\n");
     }
     
@@ -74,21 +74,21 @@ class JYViewController: UIViewController {
              Push跳转
              */
             case 0:
-//                [[JYRouter router] push:@"JYViewController"];
+                JYRouter().push("JYViewController")
                 break
             /**
              Push跳转,附带参数
              */
             case 1:
-//                [[JYRouter router] push:@"JYViewController" animated:YES params:params];
+                JYRouter().push("JYViewController", animated: true, params: params)
                 break
             /**
              Push跳转,附带参数,完成回调
              */
             case 2:
-//                [[JYRouter router] push:@"JYViewController" animated:YES params:params completion:^{
-//                    NSLog("🔥🔥🔥Push完成回调🔥🔥🔥");
-//                }];
+                JYRouter().push("JYViewController", animated: true, params: params, completion: {
+                    print("🔥🔥🔥Push完成回调🔥🔥🔥")
+                })
                 break
             default: break
             }

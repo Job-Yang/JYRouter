@@ -128,11 +128,11 @@
     UPRouterOptions *options = [UPRouterOptions routerOptions];
     
     if (![self hasRouter:viewController]) {
-        [self map:viewController toController:NSClassFromString(viewController) withOptions:options];
+        [self map:viewController toController:[self JYClassFromString:viewController] withOptions:options];
     }
     RouterParams *extraParams = [self routerParamsForUrl:viewController extraParams:params];
     
-    options.openClass = NSClassFromString(viewController);
+    options.openClass = [self JYClassFromString:viewController];
     extraParams.routerOptions = options;
     
     UIViewController *controller = [self controllerForRouterParams:extraParams];
@@ -232,13 +232,13 @@
 
 - (void)open:(NSString *)url withOptions:(UPRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
     if (![self hasRouter:url]) {
-        [self map:url toController:NSClassFromString(url) withOptions:options];
+        [self map:url toController:[self JYClassFromString:url] withOptions:options];
     }
     RouterParams *extraParams = [self routerParamsForUrl:url extraParams:params];
     if (!options) {
         options = [UPRouterOptions routerOptions];
     }
-    options.openClass = NSClassFromString(url);
+    options.openClass = [self JYClassFromString:url];
     extraParams.routerOptions = options;
     
     if (options.callback) {
@@ -292,6 +292,23 @@
             [self.navigationController pushViewController:controller animated:animated];
         }
     }
+}
+
+- (Class)JYClassFromString:(NSString *)className {
+    Class class = NSClassFromString(className);
+    if (!class) {
+        class = [self swiftClassFromString:className];
+    }
+    NSLog(@"class = %@",class);
+    return class;
+}
+
+- (Class)swiftClassFromString:(NSString *)className {
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"];
+    //http://www.skyfox.org/swift-nsclassfromstring-crash.html
+    appName = [appName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+    NSString *classStringName = [NSString stringWithFormat:@"%@.%@", appName, className];
+    return NSClassFromString(classStringName);
 }
 
 - (UINavigationController *)navigationController {
