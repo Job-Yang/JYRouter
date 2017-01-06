@@ -102,35 +102,35 @@ class JYViewController: UIViewController {
              Pop到上级
              */
             case 0:
-//                [[JYRouter router] pop];
+                JYRouter().pop()
                 break
             /**
              Pop到根控制器
              */
             case 1:
-//                [[JYRouter router] popToRoot];
+                JYRouter().popToRoot()
                 break
             /**
              Pop到根控制器,完成回调
              */
             case 2:
-//                [[JYRouter router] popToRootAnimated:YES completion:^{
-//                    NSLog(@"💧💧💧Pop完成回调💧💧💧");
-//                    }];
+                JYRouter().pop(toRoot: true, completion: {
+                     print("💧💧💧Pop完成回调💧💧💧")
+                })
                 break
             /**
              Pop到指定控制器
              */
             case 3:
-//                [[JYRouter router] popTo:@"JYViewController"];
+                JYRouter().pop(to: "JYViewController")
                 break
             /**
              Pop到指定控制器,完成回调
              */
             case 4:
-//                [[JYRouter router] popTo:@"JYViewController" animated:YES completion:^{
-//                    NSLog(@"💧💧💧Pop完成回调💧💧💧");
-//                }];
+                JYRouter().pop(to: "JYViewController", animated: true, completion: {
+                    print("💧💧💧Pop完成回调💧💧💧")
+                })
                 break
             default: break
             }
@@ -143,21 +143,21 @@ class JYViewController: UIViewController {
              present跳转
              */
             case 0:
-//                [[JYRouter router] present:@"JYViewController"];
+                JYRouter().present("JYViewController")
                 break
             /**
              Present跳转,附带参数
              */
             case 1:
-//                [[JYRouter router] present:@"JYViewController" animated:YES params:params];
+                JYRouter().present("JYViewController", animated: true, params: params)
                 break
             /**
              Present跳转,附带参数,完成回调
              */
             case 2:
-//                [[JYRouter router] present:@"JYViewController" animated:YES params:params completion:^{
-//                    NSLog(@"🌧🌧🌧Pop完成回调🌧🌧🌧");
-//                }];
+                JYRouter().present("JYViewController", animated: true, params: params, completion: {
+                    print("🌧🌧🌧Pop完成回调🌧🌧🌧")
+                })
                 break
             default: break
             }
@@ -170,23 +170,21 @@ class JYViewController: UIViewController {
              Dismiss
              */
             case 0:
-//                [[JYRouter router] dismiss];
+                JYRouter().dismiss()
                 break
             /**
              Dismiss,完成回调
              */
             case 1:
-//                [[JYRouter router] dismiss:YES completion:^{
-//                    NSLog(@"⚡️⚡️⚡️Dismiss完成回调⚡️⚡️⚡️");
-//                    }];
+                JYRouter().dismiss(true, completion: {
+                    print("⚡️⚡️⚡️Dismiss完成回调⚡️⚡️⚡️")
+                })
                 break
             default: break
             }
             break;
         default: break;
         }
-        
-        
     }
     
     // MARK: - getter & setter
@@ -206,7 +204,6 @@ class JYViewController: UIViewController {
         tableView.dataSource = self
         return tableView
     }()
-
 }
 
 
