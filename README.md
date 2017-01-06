@@ -11,17 +11,18 @@ JYRouter是一个基于[Routable](https://github.com/clayallsopp/routable-ios)�
 
 
 ## 特性
-- **兼容性:**支持Objective-C和Swift
+- **兼容性**：支持Objective-C和Swift
 
-- **易用性:**支持传递参数属性赋值和完成回调
+- **易用性**：支持传递参数属性赋值和完成回调
 
-- **无侵入性:**无需继承自其他基类
+- **无侵入性**：无需继承自其他基类
 
 
 ## 使用方法
 
 ### 简单使用
 **Objective-C**
+
 	//Push跳转
 	[[JYRouter router] push:@"JYViewController"];
 	
@@ -61,19 +62,34 @@ JYRouter是一个基于[Routable](https://github.com/clayallsopp/routable-ios)�
 ### 自定义NavigationController
 	在AppDelegate设置
 
-**Objective-C**
+	Objective-C
 	[[JYRouter router] setCustomNavigationClass:[JYNavigationController class]];
 	
-**Swift**
+	Swift
 	JYRouter().setCustomNavigationClass(JYNavigationController.self)
 
 ## 安装
+
+### CocoaPods
+1. 在 Podfile 中添加 pod 'JYRouter'。
+2. 执行 pod install 或 pod update。
+3. 
+   **Objective-C**：
+   <1> #import "JYRouter.h"
+   **Swift**：
+   <1> 建立 "你的工程名-Bridging-Header.h"桥接文件
+   <2> 在该桥接文件中 #import "JYRouter.h"
 
 ### 手动安装
 
 1. 下载 JYRouter 文件夹内的所有内容。
 2. 将 JYRouter 内的源文件添加(拖放)到你的工程。
-3. 导入 `JYRouter.h`.
+3. 
+   **Objective-C**：
+   <1> #import "JYRouter.h"
+   **Swift**：
+   <1> 建立 "你的工程名-Bridging-Header.h"桥接文件
+   <2> 在该桥接文件中 #import "JYRouter.h"
 
 ## 许可证
 
