@@ -136,11 +136,6 @@
     extraParams.routerOptions = options;
     
     UIViewController *controller = [self controllerForRouterParams:extraParams];
-    // 这里会按照params字典映射的方式给controller对应的属性赋值
-    // 所以此处我使用了YYModel的yy_modelSetWithDictionary进行属性赋值
-    // 如果你的项目中直接导入了YYModel，则可以删除YYmodel文件夹依赖
-    // 如果你的项目中导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
-    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，且使用 [controller mj_setKeyValues:params];
     [controller yy_modelSetWithDictionary:params];
     
     return controller;
@@ -211,9 +206,10 @@
 }
 
 - (void)popTo:(NSString *)viewController animated:(BOOL)animated completion:(void(^)())completion {
-    for (UIViewController *temp in self.navigationController.viewControllers) {
-        if ([NSStringFromClass([temp class]) isEqualToString:viewController]) {
-            [self.navigationController popToViewController:temp animated:animated completion:completion];
+    for (UIViewController *tempVC in self.navigationController.viewControllers) {
+        if ([NSStringFromClass([tempVC class]) isEqualToString:viewController]) {
+            [self.navigationController popToViewController:tempVC animated:animated completion:completion];
+            break;
         }
     }
 }
@@ -231,9 +227,11 @@
 }
 
 - (void)open:(NSString *)url withOptions:(UPRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+    
     if (![self hasRouter:url]) {
         [self map:url toController:[self JYClassFromString:url] withOptions:options];
     }
+    
     RouterParams *extraParams = [self routerParamsForUrl:url extraParams:params];
     if (!options) {
         options = [UPRouterOptions routerOptions];
@@ -254,11 +252,6 @@
     }
     
     UIViewController *controller = [self controllerForRouterParams:extraParams];
-    // 这里会按照params字典映射的方式给controller对应的属性赋值
-    // 所以此处我使用了YYModel的yy_modelSetWithDictionary进行属性赋值
-    // 如果你的项目中直接导入了YYModel，则可以删除YYmodel文件夹依赖
-    // 如果你的项目中导入了YYKit，则可以删除YYmodel文件夹依赖，且使用 [controller modelSetWithDictionary:params];
-    // 如果你的项目中单独导入了MJExtension，则可以删除YYmodel文件夹依赖，且使用 [controller mj_setKeyValues:params];
     [controller yy_modelSetWithDictionary:params];
     
     
@@ -285,12 +278,7 @@
         [self.navigationController setViewControllers:@[controller] animated:animated];
     }
     else {
-        self.navigationController.navigationBar.hidden = NO;
-        if (completion) {
-            [self.navigationController pushViewController:controller animated:animated completion:completion];
-        }else {
-            [self.navigationController pushViewController:controller animated:animated];
-        }
+        [self.navigationController pushViewController:controller animated:animated completion:completion];
     }
 }
 
@@ -305,7 +293,6 @@
 
 - (Class)swiftClassFromString:(NSString *)className {
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleExecutable"];
-    //http://www.skyfox.org/swift-nsclassfromstring-crash.html
     appName = [appName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
     NSString *classStringName = [NSString stringWithFormat:@"%@.%@", appName, className];
     return NSClassFromString(classStringName);
