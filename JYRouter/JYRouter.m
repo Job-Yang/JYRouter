@@ -93,28 +93,11 @@
 }
 
 - (UIViewController *)currentVC {
-    UIViewController *result = nil;
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal) {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow *tmpWin in windows) {
-            if (tmpWin.windowLevel == UIWindowLevelNormal) {
-                window = tmpWin;
-                break;
-            }
-        }
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
     }
-    UIView *frontView = [[window subviews] firstObject];
-    id nextResponder = [frontView nextResponder];
-    
-    if ([nextResponder isKindOfClass:[UIViewController class]]) {
-        result = nextResponder;
-    }
-    else {
-        result = window.rootViewController.presentedViewController;
-    }
-    
-    return result;
+    return topController;
 }
 
 - (UIViewController *)controllerWithRouter:(NSString *)viewController {
