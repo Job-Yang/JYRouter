@@ -50,11 +50,11 @@ class JYViewController: UIViewController {
         
         let group = dataList[indexPath.section]["group"] as! String?
         let params = [
-            "parameterString" : "我是一个字符串-\(group)",
+            "parameterString" : "我是一个字符串-\(String(describing: group))",
             "parameterNumber" : 123456789,
             "parameterDictionary" : [
-                "key1": "Value1-\(group)",
-                "key2": "Value2-\(group)"
+                "key1": "Value1-\(String(describing: group))",
+                "key2": "Value2-\(String(describing: group))"
             ]
         ] as [String : Any]
         

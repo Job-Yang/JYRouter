@@ -6,12 +6,42 @@
 //  Copyright © 2016年 Job-Yang. All rights reserved.
 //
 
-#import "Routable.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface UINavigationController (Extensions)
+typedef void (^JYRouterOpenCallback)(NSDictionary *params);
+
+/**
+ 跳转时属性自动复制的工具分类
+ */
+@interface NSObject (JYParams)
 @end
 
-@interface JYRouter : Routable
+/**
+ 跳转时回调的分类
+ */
+@interface UINavigationController (JYCallBack)
+@end
+
+/**
+ 跳转选项相关类
+ */
+@interface JYRouterOptions : NSObject
+@end
+
+/**
+ 跳转参数相关类
+ */
+@interface JYRouterParams : NSObject
+@end
+
+
+@interface JYRouter : NSObject
+
+/**
+ 是否忽略异常
+ */
+@property (nonatomic, assign) BOOL ignoresExceptions;
 
 /**
  单例
@@ -26,6 +56,13 @@
  @return JYRouter对象
  */
 + (instancetype)newRouter;
+
+/**
+ 获取当前显示的VC
+ 
+ @return 当前显示的VC
+ */
++ (UIViewController *)currentVC;
 
 /**
  设置自定义的Navigation,用于present时显示
@@ -43,13 +80,6 @@
  @return 是否可以跳转
  */
 - (BOOL)hasRouter:(NSString *)url;
-
-/**
- 获取当前显示的VC
-
- @return 当前显示的VC
- */
-- (UIViewController *)currentVC;
 
 /**
  通过VC名称初始化VC
@@ -241,4 +271,5 @@
      completion:(void(^)())completion;
 
 @end
+
 

@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B112DCEE1E1B82E600D9237E /* JYRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = B112DCE51E1B82E600D9237E /* JYRouter.m */; };
-		B112DCEF1E1B82E600D9237E /* Routable.m in Sources */ = {isa = PBXBuildFile; fileRef = B112DCE71E1B82E600D9237E /* Routable.m */; };
-		B112DCF01E1B82E600D9237E /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B112DCEA1E1B82E600D9237E /* NSObject+YYModel.m */; };
-		B112DCF11E1B82E600D9237E /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B112DCEC1E1B82E600D9237E /* YYClassInfo.m */; };
 		B17560AD1DFEA5BA0007E573 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560AC1DFEA5BA0007E573 /* main.m */; };
 		B17560B01DFEA5BA0007E573 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B17560AF1DFEA5BA0007E573 /* AppDelegate.m */; };
 		B17560B81DFEA5BA0007E573 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B17560B71DFEA5BA0007E573 /* Assets.xcassets */; };
@@ -23,13 +20,6 @@
 /* Begin PBXFileReference section */
 		B112DCE41E1B82E600D9237E /* JYRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYRouter.h; sourceTree = "<group>"; };
 		B112DCE51E1B82E600D9237E /* JYRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYRouter.m; sourceTree = "<group>"; };
-		B112DCE61E1B82E600D9237E /* Routable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Routable.h; sourceTree = "<group>"; };
-		B112DCE71E1B82E600D9237E /* Routable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Routable.m; sourceTree = "<group>"; };
-		B112DCE91E1B82E600D9237E /* NSObject+YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YYModel.h"; sourceTree = "<group>"; };
-		B112DCEA1E1B82E600D9237E /* NSObject+YYModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YYModel.m"; sourceTree = "<group>"; };
-		B112DCEB1E1B82E600D9237E /* YYClassInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYClassInfo.h; sourceTree = "<group>"; };
-		B112DCEC1E1B82E600D9237E /* YYClassInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYClassInfo.m; sourceTree = "<group>"; };
-		B112DCED1E1B82E600D9237E /* YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYModel.h; sourceTree = "<group>"; };
 		B17560A81DFEA5BA0007E573 /* JYRouterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JYRouterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B17560AC1DFEA5BA0007E573 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B17560AE1DFEA5BA0007E573 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -58,25 +48,10 @@
 		B112DCE31E1B82E600D9237E /* JYRouter */ = {
 			isa = PBXGroup;
 			children = (
-				B112DCE81E1B82E600D9237E /* YYModel */,
-				B112DCE61E1B82E600D9237E /* Routable.h */,
-				B112DCE71E1B82E600D9237E /* Routable.m */,
 				B112DCE41E1B82E600D9237E /* JYRouter.h */,
 				B112DCE51E1B82E600D9237E /* JYRouter.m */,
 			);
 			path = JYRouter;
-			sourceTree = "<group>";
-		};
-		B112DCE81E1B82E600D9237E /* YYModel */ = {
-			isa = PBXGroup;
-			children = (
-				B112DCE91E1B82E600D9237E /* NSObject+YYModel.h */,
-				B112DCEA1E1B82E600D9237E /* NSObject+YYModel.m */,
-				B112DCEB1E1B82E600D9237E /* YYClassInfo.h */,
-				B112DCEC1E1B82E600D9237E /* YYClassInfo.m */,
-				B112DCED1E1B82E600D9237E /* YYModel.h */,
-			);
-			path = YYModel;
 			sourceTree = "<group>";
 		};
 		B175609F1DFEA5BA0007E573 = {
@@ -153,8 +128,9 @@
 				TargetAttributes = {
 					B17560A71DFEA5BA0007E573 = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = ENALQ2C42Q;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -195,10 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1DD3AA91DFFD85600BCF83A /* JYViewController.m in Sources */,
-				B112DCEF1E1B82E600D9237E /* Routable.m in Sources */,
-				B112DCF01E1B82E600D9237E /* NSObject+YYModel.m in Sources */,
 				B1DD3AA41DFFBC8900BCF83A /* JYNavigationController.m in Sources */,
-				B112DCF11E1B82E600D9237E /* YYClassInfo.m in Sources */,
 				B17560B01DFEA5BA0007E573 /* AppDelegate.m in Sources */,
 				B112DCEE1E1B82E600D9237E /* JYRouter.m in Sources */,
 				B17560AD1DFEA5BA0007E573 /* main.m in Sources */,
@@ -314,12 +287,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ENALQ2C42Q;
 				INFOPLIST_FILE = JYRouterDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Job-Yang.JYRouterDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "JYRouterDemo/JYRouterDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -331,12 +306,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ENALQ2C42Q;
 				INFOPLIST_FILE = JYRouterDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Job-Yang.JYRouterDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "JYRouterDemo/JYRouterDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

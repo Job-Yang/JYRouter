@@ -14,9 +14,6 @@
 		B16B950A1E1CEB6A0080B79B /* JYNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16B95061E1CEB6A0080B79B /* JYNavigationController.swift */; };
 		B16B950B1E1CEB6A0080B79B /* JYViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16B95081E1CEB6A0080B79B /* JYViewController.swift */; };
 		B16B95171E1CEBBF0080B79B /* JYRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = B16B950E1E1CEBBF0080B79B /* JYRouter.m */; };
-		B16B95181E1CEBBF0080B79B /* Routable.m in Sources */ = {isa = PBXBuildFile; fileRef = B16B95101E1CEBBF0080B79B /* Routable.m */; };
-		B16B95191E1CEBBF0080B79B /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B16B95131E1CEBBF0080B79B /* NSObject+YYModel.m */; };
-		B16B951A1E1CEBBF0080B79B /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B16B95151E1CEBBF0080B79B /* YYClassInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,13 +28,6 @@
 		B16B95081E1CEB6A0080B79B /* JYViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JYViewController.swift; sourceTree = "<group>"; };
 		B16B950D1E1CEBBF0080B79B /* JYRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYRouter.h; sourceTree = "<group>"; };
 		B16B950E1E1CEBBF0080B79B /* JYRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYRouter.m; sourceTree = "<group>"; };
-		B16B950F1E1CEBBF0080B79B /* Routable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Routable.h; sourceTree = "<group>"; };
-		B16B95101E1CEBBF0080B79B /* Routable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Routable.m; sourceTree = "<group>"; };
-		B16B95121E1CEBBF0080B79B /* NSObject+YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YYModel.h"; sourceTree = "<group>"; };
-		B16B95131E1CEBBF0080B79B /* NSObject+YYModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YYModel.m"; sourceTree = "<group>"; };
-		B16B95141E1CEBBF0080B79B /* YYClassInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYClassInfo.h; sourceTree = "<group>"; };
-		B16B95151E1CEBBF0080B79B /* YYClassInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYClassInfo.m; sourceTree = "<group>"; };
-		B16B95161E1CEBBF0080B79B /* YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYModel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,23 +78,8 @@
 			children = (
 				B16B950D1E1CEBBF0080B79B /* JYRouter.h */,
 				B16B950E1E1CEBBF0080B79B /* JYRouter.m */,
-				B16B950F1E1CEBBF0080B79B /* Routable.h */,
-				B16B95101E1CEBBF0080B79B /* Routable.m */,
-				B16B95111E1CEBBF0080B79B /* YYModel */,
 			);
 			path = JYRouter;
-			sourceTree = "<group>";
-		};
-		B16B95111E1CEBBF0080B79B /* YYModel */ = {
-			isa = PBXGroup;
-			children = (
-				B16B95121E1CEBBF0080B79B /* NSObject+YYModel.h */,
-				B16B95131E1CEBBF0080B79B /* NSObject+YYModel.m */,
-				B16B95141E1CEBBF0080B79B /* YYClassInfo.h */,
-				B16B95151E1CEBBF0080B79B /* YYClassInfo.m */,
-				B16B95161E1CEBBF0080B79B /* YYModel.h */,
-			);
-			path = YYModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,10 +157,7 @@
 				B16B950B1E1CEB6A0080B79B /* JYViewController.swift in Sources */,
 				B16B95171E1CEBBF0080B79B /* JYRouter.m in Sources */,
 				B16B950A1E1CEB6A0080B79B /* JYNavigationController.swift in Sources */,
-				B16B95191E1CEBBF0080B79B /* NSObject+YYModel.m in Sources */,
-				B16B95181E1CEBBF0080B79B /* Routable.m in Sources */,
 				B16B94F41E1CEAA40080B79B /* AppDelegate.swift in Sources */,
-				B16B951A1E1CEBBF0080B79B /* YYClassInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

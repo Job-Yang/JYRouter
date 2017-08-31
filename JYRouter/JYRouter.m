@@ -7,17 +7,31 @@
 //
 
 #import "JYRouter.h"
-#import "YYModel/YYModel.h"
+#import <objc/runtime.h>
 
-@implementation UINavigationController (Extensions)
+@implementation NSObject (JYParams)
+- (void)modelWithDictionary:(NSDictionary *)dic {
+    NSMutableArray *keys = [[NSMutableArray alloc] init];
+    u_int count = 0;
+    objc_property_t *properties = class_copyPropertyList([self class], &count);
+    for (int i = 0; i < count; i++) {
+        objc_property_t property = properties[i];
+        const char *propertyCString = property_getName(property);
+        NSString *propertyName = [NSString stringWithCString:propertyCString encoding:NSUTF8StringEncoding];
+        [keys addObject:propertyName];
+    }
+    free(properties);
+    for (NSString *key in keys) {
+        if ([dic valueForKey:key]) {
+            [self setValue:[dic valueForKey:key] forKey:key];
+        }
+    }
+}
 
-/**
- 带完成回调的pushViewController
+@end
 
- @param viewController 控制器
- @param animated 是否开启动画
- @param completion 完成回调
- */
+
+@implementation UINavigationController (JYCallBack)
 - (void)pushViewController:(UIViewController *)viewController
                   animated:(BOOL)animated
                 completion:(void(^)())completion {
@@ -27,12 +41,6 @@
     [CATransaction commit];
 }
 
-/**
- 带完成回调的popToRootViewController
- 
- @param animated 是否开启动画
- @param completion 完成回调
- */
 - (void)popToRootViewController:(BOOL)animated
                      completion:(void(^)())completion {
     [CATransaction begin];
@@ -41,13 +49,6 @@
     [CATransaction commit];
 }
 
-/**
- 带完成回调的popToViewController
- 
- @param viewController 控制器
- @param animated 是否开启动画
- @param completion 完成回调
- */
 - (void)popToViewController:(UIViewController *)viewController
                    animated:(BOOL)animated
                  completion:(void(^)())completion {
@@ -60,8 +61,67 @@
 @end
 
 
+@interface JYRouterOptions()
+@property (nonatomic, assign) BOOL isModal;
+@property (nonatomic, assign) UIModalPresentationStyle presentationStyle;
+@property (nonatomic, assign) UIModalTransitionStyle transitionStyle;
+@property (nonatomic, strong) NSDictionary *defaultParams;
+@property (nonatomic, strong) Class openClass;
+@property (nonatomic, copy  ) JYRouterOpenCallback callback;
+@end
+
+@implementation JYRouterOptions
++ (instancetype)routerOptionsWithModal:(BOOL)isModal {
+    JYRouterOptions *options = [[JYRouterOptions alloc] init];
+    options.presentationStyle = UIModalPresentationNone;
+    options.transitionStyle = UIModalTransitionStyleCoverVertical;
+    options.isModal = isModal;
+    return options;
+}
+
++ (instancetype)routerOptions {
+    return [self routerOptionsWithModal:NO];
+}
+
++ (instancetype)routerOptionsAsModal {
+    return [self routerOptionsWithModal:YES];
+}
+
+- (JYRouterOptions *)withPresentationStyle:(UIModalPresentationStyle)style {
+    [self setPresentationStyle:style];
+    return self;
+}
+
+@end
+
+@interface JYRouterParams()
+@property (nonatomic, strong) JYRouterOptions *routerOptions;
+@property (nonatomic, strong) NSDictionary *openParams;
+@property (nonatomic, strong) NSDictionary *extraParams;
+@property (nonatomic, strong) NSDictionary *controllerParams;
+@end
+
+@implementation JYRouterParams
+- (instancetype)initWithRouterOptions:(JYRouterOptions *)routerOptions
+                           openParams:(NSDictionary *)openParams
+                          extraParams:(NSDictionary *)extraParams {
+    [self setRouterOptions:routerOptions];
+    [self setExtraParams:extraParams];
+    [self setOpenParams:openParams];
+    return self;
+}
+
+@end
+
+
+#define ROUTE_NOT_FOUND_FORMAT @"No route found for URL %@"
+#define INVALID_CONTROLLER_FORMAT @"Your controller class %@ needs to implement either the static method %@ or the instance method %@"
+
 @interface JYRouter()
-@property (strong, nonatomic) Class navClass;
+@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, strong) NSMutableDictionary *routes;
+@property (nonatomic, strong) NSMutableDictionary *cachedRoutes;
+@property (nonatomic, strong) Class navClass;
 @end
 
 @implementation JYRouter
@@ -79,6 +139,22 @@
     return [[self alloc] init];
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        self.routes = [NSMutableDictionary dictionary];
+        self.cachedRoutes = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
++ (UIViewController *)currentVC {
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    return topController;
+}
+
 - (void)setCustomNavigationClass:(Class)navClass {
     if (![navClass isSubclassOfClass:[UINavigationController class]]) {
         @throw [NSException exceptionWithName:@"NavClassTypeError"
@@ -92,14 +168,6 @@
     return [self.routes.allKeys containsObject:url];
 }
 
-- (UIViewController *)currentVC {
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
-    }
-    return topController;
-}
-
 - (UIViewController *)controllerWithRouter:(NSString *)viewController {
     return [self controllerWithRouter:viewController
                                params:nil];
@@ -108,18 +176,18 @@
 - (UIViewController *)controllerWithRouter:(NSString *)viewController
                                     params:(NSDictionary *)params {
     
-    UPRouterOptions *options = [UPRouterOptions routerOptions];
+    JYRouterOptions *options = [JYRouterOptions routerOptions];
     
     if (![self hasRouter:viewController]) {
-        [self map:viewController toController:[self JYClassFromString:viewController] withOptions:options];
+        [self map:viewController toController:[self classFromString:viewController] withOptions:options];
     }
-    RouterParams *extraParams = [self routerParamsForUrl:viewController extraParams:params];
+    JYRouterParams *extraParams = [self routerParamsForUrl:viewController extraParams:params];
     
-    options.openClass = [self JYClassFromString:viewController];
+    options.openClass = [self classFromString:viewController];
     extraParams.routerOptions = options;
     
     UIViewController *controller = [self controllerForRouterParams:extraParams];
-    [controller yy_modelSetWithDictionary:params];
+    [controller modelWithDictionary:params];
     
     return controller;
 }
@@ -153,19 +221,19 @@
 }
 
 - (void)present:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
-    [self open:viewController withOptions:[[UPRouterOptions modal] withPresentationStyle:UIModalPresentationFormSheet] animated:animated params:params completion:completion];
+    [self open:viewController withOptions:[[JYRouterOptions routerOptionsAsModal] withPresentationStyle:UIModalPresentationFormSheet] animated:animated params:params completion:completion];
 }
 
-- (void)present:(NSString *)viewController withOptions:(UPRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)present:(NSString *)viewController withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
     [self open:viewController withOptions:options animated:animated params:params completion:completion];
 }
 
 - (void)pop {
-    [super pop];
+    [self popViewControllerFromRouterAnimated:YES];
 }
 
 - (void)pop:(BOOL)animated {
-    [super pop:animated];
+    [self popViewControllerFromRouterAnimated:animated];
 }
 
 - (void)popToRoot {
@@ -209,21 +277,21 @@
     [self.navigationController dismissViewControllerAnimated:animated completion:completion];
 }
 
-- (void)open:(NSString *)url withOptions:(UPRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)open:(NSString *)url withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
     
     if (![self hasRouter:url]) {
-        [self map:url toController:[self JYClassFromString:url] withOptions:options];
+        [self map:url toController:[self classFromString:url] withOptions:options];
     }
     
-    RouterParams *extraParams = [self routerParamsForUrl:url extraParams:params];
+    JYRouterParams *extraParams = [self routerParamsForUrl:url extraParams:params];
     if (!options) {
-        options = [UPRouterOptions routerOptions];
+        options = [JYRouterOptions routerOptions];
     }
-    options.openClass = [self JYClassFromString:url];
+    options.openClass = [self classFromString:url];
     extraParams.routerOptions = options;
     
     if (options.callback) {
-        RouterOpenCallback callback = options.callback;
+        JYRouterOpenCallback callback = options.callback;
         callback([extraParams controllerParams]);
         return;
     }
@@ -235,7 +303,7 @@
     }
     
     UIViewController *controller = [self controllerForRouterParams:extraParams];
-    [controller yy_modelSetWithDictionary:params];
+    [controller modelWithDictionary:params];
     
     
     if ([options isModal]) {
@@ -257,15 +325,12 @@
                                                   completion:completion];
         }
     }
-    else if (options.shouldOpenAsRootViewController) {
-        [self.navigationController setViewControllers:@[controller] animated:animated];
-    }
     else {
         [self.navigationController pushViewController:controller animated:animated completion:completion];
     }
 }
 
-- (Class)JYClassFromString:(NSString *)className {
+- (Class)classFromString:(NSString *)className {
     Class class = NSClassFromString(className);
     if (!class) {
         class = [self swiftClassFromString:className];
@@ -297,5 +362,133 @@
         return (UINavigationController *)viewController;
     }
 }
+
+- (void)map:(NSString *)format toController:(Class)controllerClass withOptions:(JYRouterOptions *)options {
+    if (!format) {
+        @throw [NSException exceptionWithName:@"RouteNotProvided"
+                                       reason:@"Route #format is not initialized"
+                                     userInfo:nil];
+        return;
+    }
+    if (!options) {
+        options = [JYRouterOptions routerOptions];
+    }
+    options.openClass = controllerClass;
+    [self.routes setObject:options forKey:format];
+}
+
+
+- (void)popViewControllerFromRouterAnimated:(BOOL)animated {
+    if (self.navigationController.presentedViewController) {
+        [self.navigationController dismissViewControllerAnimated:animated completion:nil];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:animated];
+    }
+}
+
+
+- (JYRouterParams *)routerParamsForUrl:(NSString *)url extraParams: (NSDictionary *)extraParams {
+    if (!url) {
+        if (_ignoresExceptions) {
+            return nil;
+        }
+        @throw [NSException exceptionWithName:@"RouteNotFoundException"
+                                       reason:[NSString stringWithFormat:ROUTE_NOT_FOUND_FORMAT, url]
+                                     userInfo:nil];
+    }
+    
+    if ([self.cachedRoutes objectForKey:url] && !extraParams) {
+        return [self.cachedRoutes objectForKey:url];
+    }
+    
+    NSArray *givenParts = url.pathComponents;
+    NSArray *legacyParts = [url componentsSeparatedByString:@"/"];
+    if ([legacyParts count] != [givenParts count]) {
+        NSLog(@"Routable Warning - your URL %@ has empty path components - this will throw an error in an upcoming release", url);
+        givenParts = legacyParts;
+    }
+    
+    __block JYRouterParams *openParams = nil;
+    [self.routes enumerateKeysAndObjectsUsingBlock:
+     ^(NSString *routerUrl, JYRouterOptions *routerOptions, BOOL *stop) {
+         
+         NSArray *routerParts = [routerUrl pathComponents];
+         if ([routerParts count] == [givenParts count]) {
+             
+             NSDictionary *givenParams = [self paramsForUrlComponents:givenParts routerUrlComponents:routerParts];
+             if (givenParams) {
+                 openParams = [[JYRouterParams alloc] initWithRouterOptions:routerOptions
+                                                                 openParams:givenParams
+                                                                extraParams:extraParams];
+                 *stop = YES;
+             }
+         }
+     }];
+    
+    if (!openParams) {
+        if (_ignoresExceptions) {
+            return nil;
+        }
+        @throw [NSException exceptionWithName:@"RouteNotFoundException"
+                                       reason:[NSString stringWithFormat:ROUTE_NOT_FOUND_FORMAT, url]
+                                     userInfo:nil];
+    }
+    [self.cachedRoutes setObject:openParams forKey:url];
+    return openParams;
+}
+
+- (NSDictionary *)paramsForUrlComponents:(NSArray *)givenUrlComponents
+                     routerUrlComponents:(NSArray *)routerUrlComponents {
+    
+    __block NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [routerUrlComponents enumerateObjectsUsingBlock:
+     ^(NSString *routerComponent, NSUInteger idx, BOOL *stop) {
+         
+         NSString *givenComponent = givenUrlComponents[idx];
+         if ([routerComponent hasPrefix:@":"]) {
+             NSString *key = [routerComponent substringFromIndex:1];
+             [params setObject:givenComponent forKey:key];
+         }
+         else if (![routerComponent isEqualToString:givenComponent]) {
+             params = nil;
+             *stop = YES;
+         }
+     }];
+    return params;
+}
+
+- (UIViewController *)controllerForRouterParams:(JYRouterParams *)params {
+    SEL CONTROLLER_CLASS_SELECTOR = sel_registerName("allocWithRouterParams:");
+    SEL CONTROLLER_SELECTOR = sel_registerName("initWithRouterParams:");
+    SEL CONTROLLER_INIT = sel_registerName("init");
+    UIViewController *controller = nil;
+    Class controllerClass = params.routerOptions.openClass;
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if ([controllerClass respondsToSelector:CONTROLLER_CLASS_SELECTOR]) {
+        controller = [controllerClass performSelector:CONTROLLER_CLASS_SELECTOR withObject:[params controllerParams]];
+    }
+    else if ([params.routerOptions.openClass instancesRespondToSelector:CONTROLLER_SELECTOR]) {
+        controller = [[params.routerOptions.openClass alloc] performSelector:CONTROLLER_SELECTOR withObject:[params controllerParams]];
+    }
+    else {
+        controller = [[params.routerOptions.openClass alloc] performSelector:CONTROLLER_INIT];
+    }
+    #pragma clang diagnostic pop
+    if (!controller) {
+        if (_ignoresExceptions) {
+            return controller;
+        }
+        @throw [NSException exceptionWithName:@"RoutableInitializerNotFound"
+                                       reason:[NSString stringWithFormat:INVALID_CONTROLLER_FORMAT, NSStringFromClass(controllerClass), NSStringFromSelector(CONTROLLER_CLASS_SELECTOR),  NSStringFromSelector(CONTROLLER_SELECTOR)]
+                                     userInfo:nil];
+    }
+    
+    controller.modalTransitionStyle = params.routerOptions.transitionStyle;
+    controller.modalPresentationStyle = params.routerOptions.presentationStyle;
+    return controller;
+}
+
 
 @end
