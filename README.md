@@ -83,21 +83,21 @@ Installation
 1. Add `pod 'JYRouter'` to your Podfile.
 2. Run `pod install` or `pod update`.
 3. **Objective-C**：
-	1. #import "JYRouter.h"
+	1. `#import "JYRouter.h"`
 
    **Swift**：
-	1. Create "YourProjectName-Bridging-Header.h" bridging header file
-	2. #import "JYRouter.h" in the bridging header file
+	1. Create `"YourProjectName-Bridging-Header.h"` bridging header file
+	2. `#import "JYRouter.h"` in the bridging header file
 
 ### Manually
 1. Download all the files in the `JYRouter` subdirectory.
 2. Add the source files to your Xcode project.
 3. **Objective-C**：
-	1. #import "JYRouter.h"
+	1. `#import "JYRouter.h"`
 
    **Swift**：
-	1. Create "YourProjectName-Bridging-Header.h" bridging header file
-	2. #import "JYRouter.h" in the bridging header file
+	1. Create `"YourProjectName-Bridging-Header.h"` bridging header file
+	2. `#import "JYRouter.h"` in the bridging header file
 
 
 ### License
@@ -183,21 +183,21 @@ JYRouter().setCustomNavigationClass(JYNavigationController.self)
 1. 在 Podfile 中添加 pod 'JYRouter'。
 2. 执行 pod install 或 pod update。
 3. **Objective-C**：
-	1. #import "JYRouter.h"
+	1. `#import "JYRouter.h"`
 
    **Swift**：
-	1. 建立 "你的工程名-Bridging-Header.h"桥接文件
-	2. 在该桥接文件中 #import "JYRouter.h"
+	1. 建立 `"你的工程名-Bridging-Header.h"`桥接文件
+	2. 在该桥接文件中 `#import "JYRouter.h"`
 
 ### 手动安装
 1. 下载 JYRouter 文件夹内的所有内容。
 2. 将 JYRouter 内的源文件添加(拖放)到你的工程。
 3. **Objective-C**：
-	1. #import "JYRouter.h"
+	1. `#import "JYRouter.h"`
 
    **Swift**：
-	1. 建立 "你的工程名-Bridging-Header.h"桥接文件
-	2. 在该桥接文件中 #import "JYRouter.h"
+	1. 建立 `"你的工程名-Bridging-Header.h"`桥接文件
+	2. 在该桥接文件中 `#import "JYRouter.h"`
 
 许可证
 ==============
