@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'JYRouter'
-  s.summary      = 'JYRouter是一个基于Routable封装的路由跳转库，封装了常见的Push, Pop, Present, Dismiss等跳转方法'
-  s.version      = '1.0'
+  s.summary      = 'Router framework is based on runtime to push/present/pop/dismiss for iOS'
+  s.version      = '2.0'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Job-Yang" => "578093143@qq.com" }
   s.homepage     = 'https://github.com/Job-Yang/JYRouter'
@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
   s.source_files = 'JYRouter/**/*.{h,m}'
-  s.dependency 'YYModel'
+  s.dependency 'UIKit'
   
 end
