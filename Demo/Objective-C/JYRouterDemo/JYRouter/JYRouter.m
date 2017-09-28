@@ -34,7 +34,7 @@
 @implementation UINavigationController (JYCallBack)
 - (void)pushViewController:(UIViewController *)viewController
                   animated:(BOOL)animated
-                completion:(void(^)())completion {
+                completion:(void(^)(void))completion {
     [CATransaction begin];
     [CATransaction setCompletionBlock:completion];
     [self pushViewController:viewController animated:animated];
@@ -42,7 +42,7 @@
 }
 
 - (void)popToRootViewController:(BOOL)animated
-                     completion:(void(^)())completion {
+                     completion:(void(^)(void))completion {
     [CATransaction begin];
     [CATransaction setCompletionBlock:completion];
     [self popToRootViewControllerAnimated:animated];
@@ -51,7 +51,7 @@
 
 - (void)popToViewController:(UIViewController *)viewController
                    animated:(BOOL)animated
-                 completion:(void(^)())completion {
+                 completion:(void(^)(void))completion {
     [CATransaction begin];
     [CATransaction setCompletionBlock:completion];
     [self popToViewController:viewController animated:animated];
@@ -204,7 +204,7 @@
     [self push:viewController animated:animated params:params completion:nil];
 }
 
-- (void)push:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)push:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     [self open:viewController withOptions:nil animated:animated params:params completion:completion];
 }
 
@@ -220,11 +220,11 @@
     [self present:viewController animated:animated params:params completion:nil];
 }
 
-- (void)present:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)present:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     [self open:viewController withOptions:[[JYRouterOptions routerOptionsAsModal] withPresentationStyle:UIModalPresentationFormSheet] animated:animated params:params completion:completion];
 }
 
-- (void)present:(NSString *)viewController withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)present:(NSString *)viewController withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     [self open:viewController withOptions:options animated:animated params:params completion:completion];
 }
 
@@ -244,7 +244,7 @@
     [self popToRoot:animated completion:nil];
 }
 
-- (void)popToRoot:(BOOL)animated completion:(void(^)())completion {
+- (void)popToRoot:(BOOL)animated completion:(void(^)(void))completion {
     [self.navigationController popToRootViewController:animated completion:completion];
 }
 
@@ -256,7 +256,7 @@
     [self popTo:viewController animated:YES completion:nil];
 }
 
-- (void)popTo:(NSString *)viewController animated:(BOOL)animated completion:(void(^)())completion {
+- (void)popTo:(NSString *)viewController animated:(BOOL)animated completion:(void(^)(void))completion {
     for (UIViewController *tempVC in self.navigationController.viewControllers) {
         if ([NSStringFromClass([tempVC class]) isEqualToString:viewController]) {
             [self.navigationController popToViewController:tempVC animated:animated completion:completion];
@@ -273,11 +273,11 @@
     [self dismiss:animated completion:nil];
 }
 
-- (void)dismiss:(BOOL)animated completion:(void(^)())completion {
+- (void)dismiss:(BOOL)animated completion:(void(^)(void))completion {
     [self.navigationController dismissViewControllerAnimated:animated completion:completion];
 }
 
-- (void)open:(NSString *)url withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)open:(NSString *)url withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     
     if (![self hasRouter:url]) {
         [self map:url toController:[self classFromString:url] withOptions:options];
