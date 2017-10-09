@@ -8,23 +8,174 @@
 
 #import "JYRouter.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 
 @implementation NSObject (JYParams)
 - (void)modelWithDictionary:(NSDictionary *)dic {
-    NSMutableArray *keys = [[NSMutableArray alloc] init];
-    u_int count = 0;
-    objc_property_t *properties = class_copyPropertyList([self class], &count);
-    for (int i = 0; i < count; i++) {
-        objc_property_t property = properties[i];
-        const char *propertyCString = property_getName(property);
-        NSString *propertyName = [NSString stringWithCString:propertyCString encoding:NSUTF8StringEncoding];
-        [keys addObject:propertyName];
-    }
-    free(properties);
-    for (NSString *key in keys) {
-        if ([dic valueForKey:key]) {
-            [self setValue:[dic valueForKey:key] forKey:key];
+    if (!dic) {return;}
+    for(NSString *keyName in [dic allKeys]) {
+        NSString *setterMethodName = [NSString stringWithFormat:@"set%@:",[self firstUpperString:keyName]];
+        SEL propertySelector = NSSelectorFromString(setterMethodName);
+        if ([self respondsToSelector:propertySelector]) {
+            id value = [dic objectForKey:keyName];
+            unsigned int count;
+            objc_property_t *properties = class_copyPropertyList([self class], &count);
+            for (NSInteger i = 0; i < count; i++) {
+                objc_property_t property = properties[i];
+                const char *name = property_getName(property);
+                NSString *proName = [[NSString alloc] initWithUTF8String:name];
+                if ([proName isEqualToString:keyName]) {
+                    const char *attributes = property_getAttributes(property);
+                    char *type = [self typeOfPropertyFromAttributes:attributes];
+                    if (1 == strlen(type)) {
+                        [self encodeType:type[0] ofPropertySelector:propertySelector value:value];
+                    }
+                    else {
+                        [self encodeStructureType:type ofPropertySelector:propertySelector value:value];
+                    }
+                    break;
+                }
+            }
         }
+    }
+}
+                                      
+- (NSString *)firstUpperString:(NSString *)str {
+    if (str && str.length > 0) {
+        NSString *firstChar = [str substringToIndex:1];
+        return [str stringByReplacingOccurrencesOfString:firstChar withString:[firstChar uppercaseString]];
+    }
+    
+    return @"";
+}
+
+- (char *)typeOfPropertyFromAttributes:(const char *)attributes {
+    if (!attributes || strlen(attributes) <= 1) {
+        return 0x00;
+    }
+    char *result = NULL;
+    if (!(attributes[1] == '{')){
+        result = malloc(sizeof(char) * 2);
+        memset(result, 0, 2);
+        strncpy(result, attributes + 1, 1);
+        return result;
+    }
+    char *start = strstr(attributes, "{");
+    char *end = start;
+    while (true) {
+        char *tmp = strstr(end + 1, "}");
+        if (!tmp) break;
+        end = tmp;
+    }
+    NSInteger len = end - start + 1;
+    result = malloc(sizeof(char) * (len + 1));
+    memset(result, 0, len + 1);
+    strncpy(result, start, len);
+    return result;
+}
+
+- (void)encodeType:(char)type ofPropertySelector:(SEL)selector value:(id)value {
+    if (!type) return;
+    switch (type) {
+        case 'B': {
+            BOOL boolValue = [(NSNumber *)value boolValue];
+            ((void (*)(id, SEL, BOOL))(void *) objc_msgSend)((id)self, selector, boolValue);
+            break;
+        };
+        case 'c': {
+            char charValue = [(NSNumber *)value charValue];
+            ((void (*)(id, SEL, char))(void *) objc_msgSend)((id)self, selector, charValue);
+            break;
+        }
+        case 's': {
+            short shortValue = [(NSNumber *)value shortValue];
+            ((void (*)(id, SEL, short))(void *) objc_msgSend)((id)self, selector, shortValue);
+            break;
+        }
+        case 'i': {
+            int intValue = [(NSNumber *)value intValue];
+            ((void (*)(id, SEL, int))(void *) objc_msgSend)((id)self, selector, intValue);
+            break;
+        }
+        case 'C': {
+            unsigned char unsignedCharValue = [(NSNumber *)value unsignedCharValue];
+            ((void (*)(id, SEL, unsigned char))(void *) objc_msgSend)((id)self, selector, unsignedCharValue);
+            break;
+        }
+        case 'S': {
+            unsigned short unsignedShortValue = [(NSNumber *)value unsignedShortValue];
+            ((void (*)(id, SEL, unsigned short))(void *) objc_msgSend)((id)self, selector, unsignedShortValue);
+            break;
+        }
+        case 'I': {
+            unsigned int unsignedIntValue = [(NSNumber *)value unsignedIntValue];
+            ((void (*)(id, SEL, unsigned int))(void *) objc_msgSend)((id)self, selector, unsignedIntValue);
+            break;
+        }
+        case 'l': {
+            long longValue = [(NSNumber *)value longValue];
+            ((void (*)(id, SEL, long))(void *) objc_msgSend)((id)self, selector, longValue);
+            break;
+        }
+        case 'L': {
+            unsigned long unsignedLongValue = [(NSNumber *)value unsignedLongValue];
+            ((void (*)(id, SEL, unsigned long))(void *) objc_msgSend)((id)self, selector, unsignedLongValue);
+            break;
+        }
+        case 'q': {
+            long long longLongValue = [(NSNumber *)value longLongValue];
+            ((void (*)(id, SEL, long long))(void *) objc_msgSend)((id)self, selector, longLongValue);
+            break;
+        }
+        case 'Q': {
+            unsigned long long unsignedLongLongValue = [(NSNumber *)value unsignedLongLongValue];
+            ((void (*)(id, SEL, unsigned long long))(void *) objc_msgSend)((id)self, selector, unsignedLongLongValue);
+            break;
+        }
+        case 'f': {
+            float floatValue = [(NSNumber *)value floatValue];
+            ((void (*)(id, SEL, float))(void *) objc_msgSend)((id)self, selector, floatValue);
+            break;
+        }
+        case 'd': {
+            double doubleValue = [(NSNumber *)value doubleValue];
+            ((void (*)(id, SEL, double))(void *) objc_msgSend)((id)self, selector, doubleValue);
+            break;
+        }
+        default: {
+            ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)self, selector, value);
+            break;
+        }
+    }
+}
+
+- (void)encodeStructureType:(char *)type ofPropertySelector:(SEL)selector value:(id)value {
+    if (!strcmp(type, @encode(CGPoint))) {
+        CGPoint pointValue = [(NSValue *)value CGPointValue];
+        ((void (*)(id, SEL, CGPoint))(void *) objc_msgSend)((id)self, selector, pointValue);
+    }
+    else if (!strcmp(type, @encode(CGSize))) {
+        CGSize sizeValue = [(NSValue *)value CGSizeValue];
+        ((void (*)(id, SEL, CGSize))(void *) objc_msgSend)((id)self, selector, sizeValue);
+    }
+    else if (!strcmp(type, @encode(CGRect))){
+        CGRect rectValue = [(NSValue *)value CGRectValue];
+        ((void (*)(id, SEL, CGRect))(void *) objc_msgSend)((id)self, selector, rectValue);
+    }
+    else if (!strcmp(type, @encode(CGAffineTransform))){
+        CGAffineTransform affineValue = [(NSValue*)value CGAffineTransformValue];
+        ((void (*)(id, SEL, CGAffineTransform))(void *) objc_msgSend)((id)self, selector, affineValue);
+    }
+    else if (!strcmp(type, @encode(UIEdgeInsets))){
+        UIEdgeInsets edgeInsetsValue = [(NSValue*)value UIEdgeInsetsValue];
+        ((void (*)(id, SEL, UIEdgeInsets))(void *) objc_msgSend)((id)self, selector, edgeInsetsValue);
+    }
+    else if (!strcmp(type, @encode(UIOffset))){
+        UIOffset offset = [(NSValue*)value UIOffsetValue];
+        ((void (*)(id, SEL, UIOffset))(void *) objc_msgSend)((id)self, selector, offset);
+    }
+    else {
+        ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)self, selector, value);
     }
 }
 
@@ -34,7 +185,7 @@
 @implementation UINavigationController (JYCallBack)
 - (void)pushViewController:(UIViewController *)viewController
                   animated:(BOOL)animated
-                completion:(void(^)())completion {
+                completion:(void(^)(void))completion {
     [CATransaction begin];
     [CATransaction setCompletionBlock:completion];
     [self pushViewController:viewController animated:animated];
@@ -42,7 +193,7 @@
 }
 
 - (void)popToRootViewController:(BOOL)animated
-                     completion:(void(^)())completion {
+                     completion:(void(^)(void))completion {
     [CATransaction begin];
     [CATransaction setCompletionBlock:completion];
     [self popToRootViewControllerAnimated:animated];
@@ -51,7 +202,7 @@
 
 - (void)popToViewController:(UIViewController *)viewController
                    animated:(BOOL)animated
-                 completion:(void(^)())completion {
+                 completion:(void(^)(void))completion {
     [CATransaction begin];
     [CATransaction setCompletionBlock:completion];
     [self popToViewController:viewController animated:animated];
@@ -204,7 +355,7 @@
     [self push:viewController animated:animated params:params completion:nil];
 }
 
-- (void)push:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)push:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     [self open:viewController withOptions:nil animated:animated params:params completion:completion];
 }
 
@@ -220,11 +371,11 @@
     [self present:viewController animated:animated params:params completion:nil];
 }
 
-- (void)present:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)present:(NSString *)viewController animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     [self open:viewController withOptions:[[JYRouterOptions routerOptionsAsModal] withPresentationStyle:UIModalPresentationFormSheet] animated:animated params:params completion:completion];
 }
 
-- (void)present:(NSString *)viewController withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)present:(NSString *)viewController withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     [self open:viewController withOptions:options animated:animated params:params completion:completion];
 }
 
@@ -244,7 +395,7 @@
     [self popToRoot:animated completion:nil];
 }
 
-- (void)popToRoot:(BOOL)animated completion:(void(^)())completion {
+- (void)popToRoot:(BOOL)animated completion:(void(^)(void))completion {
     [self.navigationController popToRootViewController:animated completion:completion];
 }
 
@@ -256,7 +407,7 @@
     [self popTo:viewController animated:YES completion:nil];
 }
 
-- (void)popTo:(NSString *)viewController animated:(BOOL)animated completion:(void(^)())completion {
+- (void)popTo:(NSString *)viewController animated:(BOOL)animated completion:(void(^)(void))completion {
     for (UIViewController *tempVC in self.navigationController.viewControllers) {
         if ([NSStringFromClass([tempVC class]) isEqualToString:viewController]) {
             [self.navigationController popToViewController:tempVC animated:animated completion:completion];
@@ -273,11 +424,11 @@
     [self dismiss:animated completion:nil];
 }
 
-- (void)dismiss:(BOOL)animated completion:(void(^)())completion {
+- (void)dismiss:(BOOL)animated completion:(void(^)(void))completion {
     [self.navigationController dismissViewControllerAnimated:animated completion:completion];
 }
 
-- (void)open:(NSString *)url withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)())completion {
+- (void)open:(NSString *)url withOptions:(JYRouterOptions *)options animated:(BOOL)animated params:(NSDictionary *)params completion:(void(^)(void))completion {
     
     if (![self hasRouter:url]) {
         [self map:url toController:[self classFromString:url] withOptions:options];
@@ -335,7 +486,7 @@
     if (!class) {
         class = [self swiftClassFromString:className];
     }
-    NSLog(@"class = %@",class);
+//    NSLog(@"class = %@",class);
     return class;
 }
 

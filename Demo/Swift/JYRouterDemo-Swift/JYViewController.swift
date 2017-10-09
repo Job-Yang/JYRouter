@@ -18,6 +18,8 @@ class JYViewController: UIViewController {
     var parameterString:String = ""
     var parameterNumber:NSNumber = 0
     var parameterDictionary:[AnyHashable: Any] = [:]
+    var parameterBool:Bool = false
+    var parameterSize:CGSize = CGSize(width: 0, height: 0)
 
     
     // MARK: - life cycle
@@ -26,6 +28,7 @@ class JYViewController: UIViewController {
         setNavigation()
         showParameter()
         view.addSubview(tableView)
+        print(String(describing:JYViewController.self))
     }
     
     // MARK: - setup methods
@@ -41,6 +44,8 @@ class JYViewController: UIViewController {
         print("-----------------------------------------------")
         print("⭕️parameterString     = \(parameterString)")
         print("⭕️parameterNumber     = \(parameterNumber)")
+        print("⭕️parameterBool       = \(parameterBool)")
+        print("⭕️parameterSize       = \(parameterSize)")
         print("⭕️parameterDictionary = \(parameterDictionary)")
         print("-----------------------------------------------\n\n");
     }
@@ -52,6 +57,8 @@ class JYViewController: UIViewController {
         let params = [
             "parameterString" : "我是一个字符串-\(String(describing: group))",
             "parameterNumber" : 123456789,
+            "parameterBool" : true,
+            "parameterSize" : CGSize(width: 100, height: 200),
             "parameterDictionary" : [
                 "key1": "Value1-\(String(describing: group))",
                 "key2": "Value2-\(String(describing: group))"
@@ -228,12 +235,11 @@ extension JYViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: cellIdentifier)
-        cell.textLabel?.text = dataList[indexPath.section]["list"]![indexPath.row] as! String?
+        cell.textLabel?.text = (dataList[indexPath.section]["list"] as! NSArray)[indexPath.row] as? String
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         routerAtIndexPath(indexPath: indexPath)
     }
 }

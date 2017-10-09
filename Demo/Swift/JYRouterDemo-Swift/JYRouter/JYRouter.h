@@ -141,7 +141,7 @@ typedef void (^JYRouterOpenCallback)(NSDictionary *params);
 - (void)push:(NSString *)viewController
     animated:(BOOL)animated
       params:(NSDictionary *)params
-  completion:(void(^)())completion;
+  completion:(void(^)(void))completion;
 
 #pragma mark - Present
 
@@ -184,7 +184,7 @@ typedef void (^JYRouterOpenCallback)(NSDictionary *params);
 - (void)present:(NSString *)viewController
        animated:(BOOL)animated
          params:(NSDictionary *)params
-     completion:(void(^)())completion;
+     completion:(void(^)(void))completion;
 
 #pragma mark - Pop
 
@@ -219,7 +219,7 @@ typedef void (^JYRouterOpenCallback)(NSDictionary *params);
  @param completion 完成回调
  */
 - (void)popToRoot:(BOOL)animated
-               completion:(void(^)())completion;
+       completion:(void(^)(void))completion;
 
 /**
  通过VC名Pop到指定的VC（默认显示Pop动画）
@@ -246,7 +246,7 @@ typedef void (^JYRouterOpenCallback)(NSDictionary *params);
  */
 - (void)popTo:(NSString *)viewController
      animated:(BOOL)animated
-   completion:(void(^)())completion;
+   completion:(void(^)(void))completion;
 
 #pragma mark - Dismiss
 
@@ -268,7 +268,7 @@ typedef void (^JYRouterOpenCallback)(NSDictionary *params);
  @param completion 完成回调
  */
 - (void)dismiss:(BOOL)animated
-     completion:(void(^)())completion;
+     completion:(void(^)(void))completion;
 
 @end
 

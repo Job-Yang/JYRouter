@@ -24,5 +24,13 @@
  *  参数3 -- 字典
  */
 @property (strong, nonatomic) NSDictionary *parameterDictionary;
+/**
+ *  参数4 -- 基本类型
+ */
+@property (assign, nonatomic) BOOL parameterBool;
+/**
+ *  参数5 -- 结构体
+ */
+@property (assign, nonatomic) CGSize parameterSize;
 
 @end

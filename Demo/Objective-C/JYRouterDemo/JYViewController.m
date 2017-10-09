@@ -41,8 +41,9 @@
     NSLog(@"⭕️parameterString     = %@",self.parameterString);
     NSLog(@"⭕️parameterNumber     = %@",self.parameterNumber);
     NSLog(@"⭕️parameterDictionary = %@",self.parameterDictionary);
+    NSLog(@"⭕️parameterBool       = %d",self.parameterBool);
+    NSLog(@"⭕️parameterSize       = %@",NSStringFromCGSize(self.parameterSize));
     NSLog(@"-----------------------------------------------\n\n");
-
 }
 
 #pragma mark - UITableViewDataSource
@@ -85,6 +86,8 @@
     NSDictionary *params = @{
                              @"parameterString" : [NSString stringWithFormat:@"%@-%@",@"我是一个字符串", group],
                              @"parameterNumber" : @(123456789),
+                             @"parameterBool": @(YES),
+                             @"parameterSize": @(CGSizeMake(100, 200)),
                              @"parameterDictionary" : @{
                                      @"key1": [NSString stringWithFormat:@"%@-%@",@"Value1", group],
                                      @"key2": [NSString stringWithFormat:@"%@-%@",@"Value2", group],
