@@ -11,9 +11,10 @@
 #import <objc/message.h>
 
 @implementation NSObject (JYParams)
+
 - (void)modelWithDictionary:(NSDictionary *)dic {
     if (!dic) {return;}
-    for(NSString *keyName in [dic allKeys]) {
+    for (NSString *keyName in [dic allKeys]) {
         NSString *setterMethodName = [NSString stringWithFormat:@"set%@:",[self firstUpperString:keyName]];
         SEL propertySelector = NSSelectorFromString(setterMethodName);
         if ([self respondsToSelector:propertySelector]) {
@@ -45,7 +46,6 @@
         NSString *firstChar = [str substringToIndex:1];
         return [str stringByReplacingOccurrencesOfString:firstChar withString:[firstChar uppercaseString]];
     }
-    
     return @"";
 }
 
