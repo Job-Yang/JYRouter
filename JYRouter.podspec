@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'JYRouter'
   s.summary      = 'Router framework is based on runtime to push/present/pop/dismiss for iOS'
-  s.version      = '2.1.2'
+  s.version      = '2.1.3'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Job-Yang" => "578093143@qq.com" }
   s.homepage     = 'https://github.com/Job-Yang/JYRouter'
