@@ -17,26 +17,31 @@
     for (NSString *keyName in [dic allKeys]) {
         NSString *setterMethodName = [NSString stringWithFormat:@"set%@:",[self firstUpperString:keyName]];
         SEL propertySelector = NSSelectorFromString(setterMethodName);
+        
         if ([self respondsToSelector:propertySelector]) {
             id value = [dic objectForKey:keyName];
             unsigned int count;
-            objc_property_t *properties = class_copyPropertyList([self class], &count);
-            for (NSInteger i = 0; i < count; i++) {
-                objc_property_t property = properties[i];
-                const char *name = property_getName(property);
-                NSString *proName = [[NSString alloc] initWithUTF8String:name];
-                if ([proName isEqualToString:keyName]) {
-                    const char *attributes = property_getAttributes(property);
-                    char *type = [self typeOfPropertyFromAttributes:attributes];
-                    if (1 == strlen(type)) {
-                        [self encodeType:type[0] ofPropertySelector:propertySelector value:value];
+            Class class = [self class];
+            do {
+                objc_property_t *properties = class_copyPropertyList(class, &count);
+                for (NSInteger i = 0; i < count; i++) {
+                    objc_property_t property = properties[i];
+                    const char *name = property_getName(property);
+                    NSString *proName = [[NSString alloc] initWithUTF8String:name];
+                    if ([proName isEqualToString:keyName]) {
+                        const char *attributes = property_getAttributes(property);
+                        char *type = [self typeOfPropertyFromAttributes:attributes];
+                        if (1 == strlen(type)) {
+                            [self encodeType:type[0] ofPropertySelector:propertySelector value:value];
+                        }
+                        else {
+                            [self encodeStructureType:type ofPropertySelector:propertySelector value:value];
+                        }
+                        break;
                     }
-                    else {
-                        [self encodeStructureType:type ofPropertySelector:propertySelector value:value];
-                    }
-                    break;
                 }
-            }
+                class = [class superclass];
+            } while (class != [NSObject class]);
         }
     }
 }
