@@ -44,7 +44,8 @@
 - (NSString *)firstUpperString:(NSString *)str {
     if (str && str.length > 0) {
         NSString *firstChar = [str substringToIndex:1];
-        return [str stringByReplacingOccurrencesOfString:firstChar withString:[firstChar uppercaseString]];
+        NSString *result = [[firstChar uppercaseString] stringByAppendingString:[str substringFromIndex:1]];
+        return result;
     }
     return @"";
 }
